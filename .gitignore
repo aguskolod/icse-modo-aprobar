@@ -1,0 +1,5 @@
+scripts/
+tmp/
+.agents/
+*.zip
+PLAN_3_DIAS_ICSE.md
