@@ -165,6 +165,9 @@ main { padding: clamp(24px, 4vw, 48px); max-width: 1360px; margin: 0 auto; }
 .mode-card .button { margin-top: auto; align-self: flex-start; }
 
 .quiz-shell { max-width: 900px; margin: 0 auto; }
+.exam-identity { display: flex; align-items: baseline; justify-content: space-between; gap: 14px; padding: 0 0 13px; margin-bottom: 18px; border-bottom: 1px solid var(--line); }
+.exam-identity span { color: var(--red); font-size: 10px; font-weight: 850; }
+.exam-identity strong { font: 700 20px Georgia, serif; }
 .quiz-top { display: grid; grid-template-columns: 1fr auto; gap: 16px; align-items: center; margin-bottom: 22px; }
 .quiz-progress { height: 7px; background: var(--surface-2); }
 .quiz-progress i { height: 100%; display: block; background: var(--teal); transition: width .25s ease; }

@@ -1,4 +1,4 @@
-const { existsSync, cpSync, mkdirSync, rmSync } = require("fs");
+const { existsSync, cpSync, mkdirSync, rmSync, writeFileSync } = require("fs");
 const { spawnSync } = require("child_process");
 
 const executable = process.platform === "win32"
@@ -14,9 +14,16 @@ if (!existsSync(esmEntry) && !existsSync(jsEntry)) {
   process.exit(result.status || 1);
 }
 
-if (!existsSync(jsEntry)) {
-  cpSync(esmEntry, jsEntry);
-}
+writeFileSync(jsEntry, `export default {
+  async fetch(request) {
+    const url = new URL(request.url);
+    if (url.pathname === "/") {
+      return Response.redirect(new URL("/course.html", url), 302);
+    }
+    return new Response("Not found", { status: 404 });
+  }
+};
+`, "utf8");
 
 mkdirSync("dist/.openai", { recursive: true });
 cpSync(".openai/hosting.json", "dist/.openai/hosting.json");
