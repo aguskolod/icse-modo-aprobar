@@ -3,6 +3,8 @@ tmp/
 .agents/
 node_modules/
 dist/
+.next/
+next-env.d.ts
 *.zip
 *.tgz
 PLAN_3_DIAS_ICSE.md
