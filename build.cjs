@@ -1,4 +1,4 @@
-const { existsSync, cpSync, mkdirSync, rmSync, writeFileSync } = require("fs");
+const { existsSync, cpSync, mkdirSync, rmSync } = require("fs");
 const { spawnSync } = require("child_process");
 
 const executable = process.platform === "win32"
@@ -15,7 +15,7 @@ if (!existsSync(esmEntry) && !existsSync(jsEntry)) {
 }
 
 if (!existsSync(jsEntry)) {
-  writeFileSync(jsEntry, 'export { default } from "./index.mjs";\n', "utf8");
+  cpSync(esmEntry, jsEntry);
 }
 
 mkdirSync("dist/.openai", { recursive: true });
