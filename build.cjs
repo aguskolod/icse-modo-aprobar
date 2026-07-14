@@ -18,7 +18,7 @@ writeFileSync(jsEntry, `export default {
   async fetch(request) {
     const url = new URL(request.url);
     if (url.pathname === "/") {
-      return Response.redirect(new URL("/course.html", url), 302);
+      return Response.redirect(new URL("/course.html?v=6", url), 302);
     }
     return new Response("Not found", { status: 404 });
   }
