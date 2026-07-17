@@ -182,7 +182,11 @@ main { padding: clamp(24px, 4vw, 48px); max-width: 1360px; margin: 0 auto; }
 .option.selected { border-color: var(--teal); background: var(--teal-soft); }
 .option.correct { border-color: var(--green); background: #dcecdf; }
 .option.wrong { border-color: var(--danger); background: var(--red-soft); }
+.option.eliminated { opacity: .35; text-decoration: line-through; cursor: not-allowed; filter: grayscale(1); }
 [data-theme="dark"] .option.correct { background: #213d2c; }
+.question-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.notes-warning { padding: 6px 8px; border: 1px solid #d5a429; border-radius: 4px; color: #856200; background: #fff4cc; font-size: 10px; font-weight: 800; letter-spacing: .04em; }
+[data-theme="dark"] .notes-warning { color: #ffd970; background: #493b14; }
 .feedback { margin-top: 18px; padding: 15px; background: var(--teal-soft); border-left: 4px solid var(--teal); line-height: 1.5; }
 .feedback.wrong { background: var(--red-soft); border-color: var(--danger); }
 .quiz-nav { display: flex; justify-content: space-between; gap: 12px; margin-top: 14px; }
@@ -221,6 +225,17 @@ select { min-height: 39px; border: 1px solid var(--line); background: var(--surf
 .mistake-row header span { color: var(--muted); font-size: 11px; }
 .mistake-row p { margin: 0 0 11px; line-height: 1.45; }
 .mistake-answer { color: var(--green); font-size: 13px; }
+.mistake-row.clickable { cursor: pointer; }
+.mistake-row.clickable:hover { border-color: var(--teal); }
+.answer-review-list { display: grid; gap: 10px; margin: 24px 0; }
+.answer-review { padding: 18px; background: var(--surface); border: 1px solid var(--line); border-left: 4px solid var(--danger); }
+.answer-review.is-correct { border-left-color: var(--green); }
+.answer-review header { display: flex; justify-content: space-between; gap: 12px; align-items: center; }
+.answer-review header span { color: var(--muted); font-size: 11px; font-weight: 800; }
+.answer-review p { line-height: 1.45; }
+.review-summary { margin-top: 12px; padding: 12px; background: var(--bg); border: 1px solid var(--line); color: var(--green); font-size: 13px; line-height: 1.5; }
+.review-summary > strong { display: block; margin-bottom: 5px; color: var(--text); }
+.question-review .options { margin: 20px 0; }
 .empty-state { min-height: 280px; display: grid; place-items: center; text-align: center; border: 1px dashed var(--line); color: var(--muted); padding: 30px; }
 .empty-state strong { display: block; color: var(--ink); font: 700 24px Georgia, serif; margin-bottom: 8px; }
 
