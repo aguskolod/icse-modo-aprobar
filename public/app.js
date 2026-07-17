@@ -305,6 +305,7 @@
   let state = loadState();
   let currentView = "inicio";
   let flashIndex = 0;
+  let examSearchQuery = "";
   let quizSession = null;
   let timerId = null;
 
@@ -353,7 +354,7 @@
     quizSession = null;
     stopTimer();
     document.querySelectorAll(".nav-item").forEach(button => button.classList.toggle("active", button.dataset.view === view));
-    const titles = { inicio: "Inicio", ruta: "Ruta de 3 días", lecciones: "Lo infaltable", fichas: "Fichas rápidas", final: "Final tema 3", practica: "Práctica guiada", parciales: "Parciales reales", errores: "Mis errores" };
+    const titles = { inicio: "Inicio", ruta: "Ruta de 3 días", lecciones: "Lo infaltable", fichas: "Fichas rápidas", final: "Final tema 3", buscar: "Buscar respuestas", practica: "Práctica guiada", parciales: "Parciales reales", errores: "Mis errores" };
     document.getElementById("view-title").textContent = titles[view] || "Curso";
     document.getElementById("view-eyebrow").textContent = view === "parciales" ? "FORMATO REAL" : "CURSO INTENSIVO";
     closeMobileMenu();
@@ -363,7 +364,7 @@
   }
 
   function render() {
-    const views = { inicio: renderHome, ruta: renderRoute, lecciones: renderLessons, fichas: renderFlashcards, final: renderFinalExam, practica: renderPractice, parciales: renderExams, errores: renderMistakes };
+    const views = { inicio: renderHome, ruta: renderRoute, lecciones: renderLessons, fichas: renderFlashcards, final: renderFinalExam, buscar: renderExamSearch, practica: renderPractice, parciales: renderExams, errores: renderMistakes };
     content.innerHTML = (views[currentView] || renderHome)();
     updateProgress();
   }
@@ -522,6 +523,58 @@
   function answerSummary(item) {
     const options = expandedCorrectOptions(item);
     return options.map(option => `<div><strong>${option.letter}.</strong> ${esc(option.text)}</div>`).join("");
+  }
+
+  function answerContent(item) {
+    const options = expandedCorrectOptions(item);
+    if (!options.length) return `<div>${esc(item.explanation || "No hay respuesta cargada.")}</div>`;
+    return options.map(option => `<div>${esc(option.text)}</div>`).join("");
+  }
+
+  function normalizeSearch(value) {
+    return String(value || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
+  }
+
+  function examSearchPool() {
+    return EXAMS.flatMap(exam => exam.questions.map(question => {
+      const module = lessons.find(lesson => lesson.id === question.lessonId);
+      const examTitle = `${exam.partial}.º parcial · Tema ${exam.theme}`;
+      const haystack = normalizeSearch([
+        examTitle,
+        module?.title,
+        question.prompt,
+        question.options.map(option => option.text).join(" ")
+      ].join(" "));
+      return { ...question, examId: exam.id, examTitle, moduleTitle: module?.title || "Sin módulo", haystack };
+    }));
+  }
+
+  function renderExamSearchResults(query) {
+    const clean = normalizeSearch(query);
+    if (!clean) {
+      return `<div class="empty-state"><div><strong>Buscá por autor, concepto o palabra del enunciado.</strong>Probá: Max Povse, Romero, GAESA, convertibilidad, democracia, Alfonsín o China.</div></div>`;
+    }
+    const terms = clean.split(/\s+/).filter(Boolean);
+    const results = examSearchPool().filter(item => terms.every(term => item.haystack.includes(term)));
+    if (!results.length) {
+      return `<div class="empty-state"><div><strong>No encontré coincidencias.</strong>Probá con menos palabras o sin tildes. El buscador mira enunciado, opciones y tema del parcial.</div></div>`;
+    }
+    return `<div class="search-count">${results.length} resultado${results.length === 1 ? "" : "s"} para "${esc(query)}"</div>
+      <div class="search-results">${results.map(item => `<article class="search-result">
+        <header><span>${esc(item.examTitle)} · Consigna ${esc(item.number || "?")}</span><span>${esc(item.moduleTitle)}</span></header>
+        <h3>${esc(item.prompt)}</h3>
+        <div class="search-answer"><strong>Respuesta de contenido</strong>${answerContent(item)}</div>
+        ${item.explanation ? `<p>${esc(item.explanation)}</p>` : ""}
+      </article>`).join("")}</div>`;
+  }
+
+  function renderExamSearch() {
+    return `${pageHead("BUSCADOR", "Todas las respuestas de parciales", "Escribí un autor, concepto o frase del enunciado. Te devuelve todas las consignas reales que coinciden y la respuesta en contenido, no sólo la letra.")}
+      <div class="search-shell">
+        <label class="eyebrow" for="exam-search">BUSCAR EN PARCIALES</label>
+        <input id="exam-search" class="search-input" type="search" value="${esc(examSearchQuery)}" placeholder="Ej: Max Povse, Romero, GAESA, convertibilidad..." autocomplete="off">
+      </div>
+      <div id="exam-search-results">${renderExamSearchResults(examSearchQuery)}</div>`;
   }
 
   function openQuestionReview(item) {
@@ -697,6 +750,12 @@
   document.getElementById("menu-button").addEventListener("click", () => { document.getElementById("sidebar").classList.add("open"); document.getElementById("mobile-overlay").classList.add("open"); });
   document.getElementById("mobile-overlay").addEventListener("click", closeMobileMenu);
   document.getElementById("theme-button").addEventListener("click", () => { state.theme = state.theme === "dark" ? "light" : "dark"; document.documentElement.dataset.theme = state.theme; saveState(); });
+  content.addEventListener("input", event => {
+    if (event.target.id !== "exam-search") return;
+    examSearchQuery = event.target.value;
+    const results = document.getElementById("exam-search-results");
+    if (results) results.innerHTML = renderExamSearchResults(examSearchQuery);
+  });
   content.addEventListener("change", event => { if (event.target.id === "exam-filter") content.innerHTML = renderExams(event.target.value); });
   dialog.addEventListener("click", event => { if (event.target === dialog) dialog.close(); });
   dialog.addEventListener("close", () => {
