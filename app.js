@@ -222,6 +222,31 @@
 
   function card(front, back) { return [front, back]; }
 
+  const finalExamQuestions = [
+    finalItem(1, "Regimen y gobierno", "Max Povse: es lo mismo un cambio de gobierno que un cambio de regimen politico.", "C", "Falsa", "Alta", "La frase es falsa porque un regimen politico puede mantenerse aunque cambie el gobierno. Cambiar presidente, partido o autoridades no implica cambiar las reglas de acceso y ejercicio del poder."),
+    finalItem(2, "Estado y gobierno", "Patricio Gomez Talavera: existe una distincion temporal importante entre Estado y gobierno.", "B", "Verdadera", "Alta", "El Estado tiene mayor permanencia institucional: burocracia, normas y administracion siguen existiendo aunque cambien autoridades. El gobierno es temporal; ocupa y conduce el Estado por un periodo."),
+    finalItem(3, "Persona y ciudadano", "Nadia Yannuzzi: persona y ciudadano son conceptos equivalentes y pueden usarse indistintamente.", "A", "Falsa", "Alta", "Persona remite a derechos humanos por el simple hecho de existir. Ciudadano implica pertenencia politica y derechos garantizados por un Estado. Por eso no son conceptos equivalentes."),
+    finalItem(4, "Democracia representativa", "Nicolas Simone: la democracia representativa se alcanza cuando los ciudadanos eligen a un pequeno grupo para que tome decisiones en su nombre.", "C", "Verdadera", "Alta", "La clave de la representacion es que la ciudadania no decide todo de modo directo, sino que elige representantes que gobiernan o legislan expresando, idealmente, la voluntad mayoritaria."),
+    finalItem(5, "Lenguaje academico", "Pedrosa y Yannuzzi: el uso academico y el uso cotidiano del lenguaje persiguen los mismos objetivos comunicativos.", "B", "Falsa", "Media", "La afirmacion es falsa porque el lenguaje academico busca precision conceptual y discusion argumentada. El lenguaje cotidiano puede funcionar como marca identitaria, consigna o disparador afectivo mas que como analisis riguroso."),
+    finalItem(6, "Dictadura y Fuerzas Armadas", "Romero: con la represion de la ultima dictadura surgieron en el Ejercito verdaderos senores de la guerra que casi no reconocian autoridad superior.", "D", "Verdadera", "Media", "La idea central es la fragmentacion del poder represivo. Las tendencias centrifugas y la division entre fuerzas impidieron una instancia superior capaz de disciplinar todos los conflictos internos."),
+    finalItem(7, "Proceso de Reorganizacion Nacional", "Romero: la primera cuestion oscura del Proceso era donde residia realmente el poder.", "C", "Verdadera", "Alta", "La autoridad presidencial quedo controlada y limitada por los jefes de las tres armas. Por eso el poder real no estaba concentrado de manera simple en el presidente visible."),
+    finalItem(8, "Crisis militar de 1982", "Romero: tras Malvinas, los militares enfrentaron la evidencia de su fracaso como administradores y conductores de una guerra absurda.", "F", "Verdadera", "Media", "Las opciones mas solidas son B y C: antiguos aliados empresariales, Iglesia y Estados Unidos se movian hacia la democracia, y los enemigos politicos, sindicales, financieros e incluso armados habian sobrevivido. Descarto D porque no era simplemente inevitabilidad peronista."),
+    finalItem(9, "GAESA y Cuba", "Chaguaceda y Viera: GAESA ilustra la fusion entre poder economico y politico de la cupula militar cubana.", "G", "Verdadera", "Media", "La combinacion mas probable es C y D: autonomia economica/financiera respecto de controles estatales ordinarios y circulacion de dirigentes de GAESA hacia cargos centrales. Eso muestra fusion de poder militar, economico y politico."),
+    finalItem(10, "China en America Latina", "Povse: el avance de China en America Latina se explica por varios factores simultaneos.", "E", "Verdadera", "Media", "La respuesta sugerida combina A y D: afinidades politicas con gobiernos de la marea rosa y un vacio relativo dejado por Estados Unidos. B es falsa por la Doctrina Monroe; C es falsa por decir exclusivamente comercio."),
+    finalItem(11, "Alianza y economia heredada", "Romero: el gobierno de la Alianza recibio una economia que condiciono severamente su margen de accion.", "A", "Verdadera", "Alta", "La convertibilidad limitaba la politica monetaria y el peso sobrevaluado complicaba exportaciones. Ademas, deficit y deuda reducian margen de maniobra. Las demas opciones exageran o tienen datos incorrectos."),
+    finalItem(12, "Alfonsin 1983", "Romero: al asumir Alfonsin, el poder que administraba era a la vez grande y escaso.", "F", "Verdadera", "Media", "La combinacion sugerida es B y C: hubo un triunfo electoral muy fuerte, pero el radicalismo no era una fuerza homogenea ni tenia control pleno del sistema politico. A y D parecen falsas porque exageran control del Senado/interior."),
+    finalItem(13, "Leiras y Venezuela", "Leiras: la etapa constituyente de la Revolucion Bolivariana transformo radicalmente el sistema politico venezolano.", "E", "Verdadera", "Media", "A es clara: AD y COPEI quedaron reducidos a un papel casi testimonial. B parece apuntar al referendum constitucional y la reorganizacion/disolucion de poderes previos. Marco duda razonable por la foto y por el detalle cronologico exacto."),
+    finalItem(14, "Programa economico de 1976", "Romero: el programa economico de 1976 busco reducir funciones del Estado, pero encontro resistencias.", "G", "Verdadera", "Alta", "La combinacion mas consistente es B y C: muchos empresarios querian liberalismo declarativo pero subsidios concretos, y dentro de los militares habia sectores nacionalistas/dirigistas o beneficiarios del reparto estatal. A y D no encajan con la dictadura sin competencia electoral abierta."),
+    finalItem(15, "Derecha tras 1983", "Romero: desde 1983 radicales y peronistas concentraron apoyos y dejaron poco espacio a otros partidos; a la derecha le costo unificarse.", "H", "Verdadera", "Media", "A corresponde a la UCeDe y al liberalismo economico ortodoxo con frutos posteriores. C corresponde al Partido Intransigente, que reunio un espectro amplio y heterogeneo. B y D son anacronicas o no corresponden a ese periodo."),
+    finalItem(16, "Semana Santa de 1987", "Romero: el levantamiento de Semana Santa puso a prueba la estabilidad democratica.", "G", "Verdadera", "Alta", "A y D son las correctas sugeridas: los sublevados exigian frenar juicios por represion y el episodio fue un punto de inflexion que desemboco en negociaciones y luego en Obediencia Debida. No fue sofocado sin negociar ni fue golpe exitoso."),
+    finalItem(17, "Gulich y Asimov", "Gulich: las Tres Leyes de la Robotica de Asimov siguen siendo relevantes para pensar dilemas eticos de la IA actual.", "F", "Verdadera", "Duda razonable", "La respuesta sugerida es B y C: las leyes funcionan como reglas basicas de seguridad para herramientas autonomas y fueron pensadas para robots/IA de tipo general. A exagera al volverlas marco legal internacional; D es falsa porque las armas autonomas no prueban que ya se hayan incorporado esas leyes."),
+    finalItem(18, "Estado liberal", "Ariel Mittleman: elementos constitutivos del Estado liberal en sus inicios.", "H", "Verdadera", "Alta", "Son A, B y D: gobierno representativo, division de poderes y liberalismo economico. Las Fuerzas Armadas no son un elemento constitutivo especifico del Estado liberal inicial en esa lista.")
+  ];
+
+  function finalItem(number, topic, prompt, answer, verdict, confidence, explanation) {
+    return { number, topic, prompt, answer, verdict, confidence, explanation };
+  }
+
   const quickQuestions = [
     q("¿Cuál es la relación correcta entre Estado y gobierno?", ["Son sinónimos", "El gobierno es temporal; el Estado tiene mayor permanencia", "El Estado cambia con cada elección", "El gobierno contiene al Estado"], 1, "El gobierno ocupa y conduce temporalmente la estructura estatal."),
     q("Un país celebra elecciones, pero prohíbe oposición real y controla la prensa. ¿Alcanza para llamarlo democracia?", ["Sí, porque hubo voto", "Sí, si ganó la mayoría", "No, faltan competencia y libertades", "No, porque toda elección es autoritaria"], 2, "La democracia exige más que elecciones: competencia, derechos y libertades efectivas."),
@@ -328,7 +353,7 @@
     quizSession = null;
     stopTimer();
     document.querySelectorAll(".nav-item").forEach(button => button.classList.toggle("active", button.dataset.view === view));
-    const titles = { inicio: "Inicio", ruta: "Ruta de 3 días", lecciones: "Lo infaltable", fichas: "Fichas rápidas", practica: "Práctica guiada", parciales: "Parciales reales", errores: "Mis errores" };
+    const titles = { inicio: "Inicio", ruta: "Ruta de 3 días", lecciones: "Lo infaltable", fichas: "Fichas rápidas", final: "Final tema 3", practica: "Práctica guiada", parciales: "Parciales reales", errores: "Mis errores" };
     document.getElementById("view-title").textContent = titles[view] || "Curso";
     document.getElementById("view-eyebrow").textContent = view === "parciales" ? "FORMATO REAL" : "CURSO INTENSIVO";
     closeMobileMenu();
@@ -338,7 +363,7 @@
   }
 
   function render() {
-    const views = { inicio: renderHome, ruta: renderRoute, lecciones: renderLessons, fichas: renderFlashcards, practica: renderPractice, parciales: renderExams, errores: renderMistakes };
+    const views = { inicio: renderHome, ruta: renderRoute, lecciones: renderLessons, fichas: renderFlashcards, final: renderFinalExam, practica: renderPractice, parciales: renderExams, errores: renderMistakes };
     content.innerHTML = (views[currentView] || renderHome)();
     updateProgress();
   }
@@ -410,6 +435,26 @@
     const known = state.knownCards.includes(flashIndex);
     return `${pageHead("REPASO ACTIVO", "Fichas rápidas", "Intentá decir la respuesta antes de dar vuelta la ficha. Las que marques como difíciles vuelven a aparecer en tu próximo recorrido.")}
       <div class="flash-layout"><div><div class="flashcard" data-flip-card><span class="flash-label">FICHA ${flashIndex + 1} / ${flashcards.length}</span><h2>${card[0]}</h2><div class="flash-answer">${card[1]}</div><footer>Hacé clic para ver la respuesta</footer></div><div class="flash-controls"><button class="button secondary" data-card-prev>← Anterior</button><button class="button ${known ? "secondary" : "red"}" data-card-know>${known ? "Ya la sé ✓" : "La sé"}</button><button class="button secondary" data-card-next>Siguiente →</button></div></div><aside><span class="eyebrow">ESTADO DEL MAZO</span><div class="flash-stats"><div><span>Dominadas</span><strong>${state.knownCards.length}</strong></div><div><span>Pendientes</span><strong>${flashcards.length - state.knownCards.length}</strong></div><div><span>Avance</span><strong>${Math.round(state.knownCards.length / flashcards.length * 100)}%</strong></div></div><p style="color:var(--muted);font-size:13px;line-height:1.55;margin-top:18px">Meta útil: dominar al menos 15 antes del último simulacro.</p></aside></div>`;
+  }
+
+  function renderFinalExam() {
+    const byConfidence = finalExamQuestions.reduce((acc, item) => {
+      acc[item.confidence] = (acc[item.confidence] || 0) + 1;
+      return acc;
+    }, {});
+    return `${pageHead("FINAL REAL", "Tema 3 · respuestas para memorizar", "Son respuestas sugeridas a partir de las fotos. Las de confianza media o duda razonable conviene repasarlas con el apunte: estan marcadas para no convertir una sospecha en verdad absoluta.")}
+      <div class="final-summary">
+        <div><strong>${finalExamQuestions.length}</strong><span>consignas cargadas</span></div>
+        <div><strong>${byConfidence.Alta || 0}</strong><span>confianza alta</span></div>
+        <div><strong>${(byConfidence.Media || 0) + (byConfidence["Duda razonable"] || 0)}</strong><span>revisar con cuidado</span></div>
+      </div>
+      <div class="final-list">${finalExamQuestions.map(item => `<article class="final-card ${item.confidence === "Duda razonable" ? "uncertain" : ""}">
+        <header><span class="final-number">Consigna ${item.number}</span><span class="tag ${item.confidence === "Alta" ? "teal" : item.confidence === "Media" ? "gold" : "red"}">${item.confidence}</span></header>
+        <small>${esc(item.topic)}</small>
+        <h3>${esc(item.prompt)}</h3>
+        <div class="final-answer"><span>Respuesta sugerida</span><strong>${esc(item.answer)} · ${esc(item.verdict)}</strong></div>
+        <p>${esc(item.explanation)}</p>
+      </article>`).join("")}</div>`;
   }
 
   function renderPractice() {
