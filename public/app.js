@@ -385,8 +385,48 @@
     const progress = (session.index + 1) / session.questions.length * 100;
     const answered = Object.keys(session.answers).length;
     const module = lessons.find(lesson => lesson.id === question.lessonId);
+    const eliminated = session.hints?.[session.index] || [];
+    const outsideNotes = session.type === "exam" && isOutsideSecondPartialNotes(session.examId, question);
     const source = question.number ? `Consigna ${question.number} · ${question.points} ${question.points === 1 ? "punto" : "puntos"}` : `Concepto esencial · ${module?.title || "Repaso"}`;
-    return `<div class="quiz-shell">${session.type === "exam" ? `<div class="exam-identity"><span>SIMULACRO REAL</span><strong>${esc(session.title)}</strong></div>` : ""}<div class="quiz-top"><div class="quiz-progress"><i style="width:${progress}%"></i></div><div class="quiz-meta">${session.type === "exam" ? `<strong id="quiz-timer">${formatTime(remainingSeconds())}</strong> · ` : ""}${session.index + 1} / ${session.questions.length}</div></div><div class="question-panel"><div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap"><span class="question-points">${source}</span>${module ? `<button class="button small secondary" data-lesson="${module.id}">${session.type === "exam" ? "Ir al material" : "Repasar material"}</button>` : ""}</div><h2>${esc(question.prompt)}</h2><div class="options">${question.options.map(option => { const isCorrect = revealed && option.letter === question.answer; const isWrong = revealed && option.letter === selected && selected !== question.answer; return `<button class="option ${selected === option.letter ? "selected" : ""} ${isCorrect ? "correct" : ""} ${isWrong ? "wrong" : ""}" data-answer="${option.letter}" ${revealed ? "disabled" : ""}><b>${option.letter}</b><span>${esc(option.text)}</span></button>`; }).join("")}</div>${revealed ? `<div class="feedback ${selected === question.answer ? "" : "wrong"}"><strong>${selected === question.answer ? "Correcto." : `La correcta era ${question.answer}.`}</strong> ${esc(question.explanation || "Esta es la respuesta indicada por la clave oficial del parcial.")}</div>` : ""}</div>${session.type === "exam" ? `<div class="question-dots">${session.questions.map((_, i) => `<button class="${session.answers[i] ? "answered" : ""} ${i === session.index ? "current" : ""}" data-quiz-jump="${i}">${i + 1}</button>`).join("")}</div>` : ""}<div class="quiz-nav"><button class="button secondary" data-quiz-prev ${session.index === 0 ? "disabled" : ""}>← Anterior</button>${session.type === "exam" && session.index === session.questions.length - 1 ? `<button class="button red" data-submit-exam ${answered < session.questions.length ? "" : ""}>Corregir parcial</button>` : `<button class="button red" data-quiz-next ${!selected || (session.type === "quick" && !revealed) ? "disabled" : ""}>${session.index === session.questions.length - 1 ? "Ver resultado" : "Siguiente →"}</button>`}</div>${session.type === "exam" ? `<p style="text-align:center;color:var(--muted);font-size:11px">Respondidas: ${answered} de ${session.questions.length}. Podés moverte y cambiar respuestas antes de corregir.</p>` : ""}</div>`;
+    return `<div class="quiz-shell">${session.type === "exam" ? `<div class="exam-identity"><span>SIMULACRO REAL</span><strong>${esc(session.title)}</strong></div>` : ""}<div class="quiz-top"><div class="quiz-progress"><i style="width:${progress}%"></i></div><div class="quiz-meta">${session.type === "exam" ? `<strong id="quiz-timer">${formatTime(remainingSeconds())}</strong> · ` : ""}${session.index + 1} / ${session.questions.length}</div></div><div class="question-panel"><div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap"><span class="question-points">${source}</span><div class="question-actions">${outsideNotes ? '<span class="notes-warning">NO APARECE EXPLÍCITAMENTE EN EL APUNTE</span>' : ""}${session.type === "exam" ? `<button class="button small secondary" data-hint ${eliminated.length ? "disabled" : ""}>${eliminated.length ? "Pista usada" : "Pista"}</button>` : ""}${module ? `<button class="button small secondary" data-lesson="${module.id}">${session.type === "exam" ? "Ir al material" : "Repasar material"}</button>` : ""}</div></div><h2>${esc(question.prompt)}</h2><div class="options">${question.options.map(option => { const isCorrect = revealed && option.letter === question.answer; const isWrong = revealed && option.letter === selected && selected !== question.answer; const isEliminated = eliminated.includes(option.letter); return `<button class="option ${selected === option.letter ? "selected" : ""} ${isCorrect ? "correct" : ""} ${isWrong ? "wrong" : ""} ${isEliminated ? "eliminated" : ""}" data-answer="${option.letter}" ${revealed || isEliminated ? "disabled" : ""}><b>${option.letter}</b><span>${esc(option.text)}</span></button>`; }).join("")}</div>${revealed ? `<div class="feedback ${selected === question.answer ? "" : "wrong"}"><strong>${selected === question.answer ? "Correcto." : `La correcta era ${question.answer}.`}</strong> ${esc(question.explanation || "Esta es la respuesta indicada por la clave oficial del parcial.")}</div>` : ""}</div>${session.type === "exam" ? `<div class="question-dots">${session.questions.map((_, i) => `<button class="${session.answers[i] ? "answered" : ""} ${i === session.index ? "current" : ""}" data-quiz-jump="${i}">${i + 1}</button>`).join("")}</div>` : ""}<div class="quiz-nav"><button class="button secondary" data-quiz-prev ${session.index === 0 ? "disabled" : ""}>← Anterior</button>${session.type === "exam" && session.index === session.questions.length - 1 ? `<button class="button red" data-submit-exam>Corregir parcial</button>` : `<button class="button red" data-quiz-next ${!selected || (session.type === "quick" && !revealed) ? "disabled" : ""}>${session.index === session.questions.length - 1 ? "Ver resultado" : "Siguiente →"}</button>`}</div>${session.type === "exam" ? `<p style="text-align:center;color:var(--muted);font-size:11px">Respondidas: ${answered} de ${session.questions.length}. Podés moverte y cambiar respuestas antes de corregir.</p>` : ""}</div>`;
+  }
+
+  function useHint() {
+    if (!quizSession || quizSession.type !== "exam") return;
+    const index = quizSession.index;
+    quizSession.hints ||= {};
+    if (quizSession.hints[index]?.length) return;
+    const question = quizSession.questions[index];
+    let candidates = question.options.filter(option => option.letter !== question.answer);
+    const count = question.options.length === 8 ? 1 : Math.min(2, candidates.length);
+    if (question.options.length === 8) candidates = candidates.filter(option => option.letter >= "E" && option.letter <= "H");
+    const eliminated = [...candidates].sort(() => Math.random() - .5).slice(0, count).map(option => option.letter);
+    quizSession.hints[index] = eliminated;
+    if (eliminated.includes(quizSession.answers[index])) delete quizSession.answers[index];
+    render();
+  }
+
+  function isOutsideSecondPartialNotes(examId, question) {
+    if (!examId?.startsWith("p2-")) return false;
+    return /swiftgate|frepaso|islas malvinas|tokens no fungibles|\bnft\b|di[aá]spora|distinci[oó]n entre ["“]?internacional|intercambio educativo/i.test(question.prompt);
+  }
+
+  function expandedCorrectOptions(item) {
+    const official = item.options.find(option => option.letter === item.answer);
+    if (!official) return [];
+    if (item.answer < "E") return [official];
+    const letters = [...official.text.matchAll(/\b([A-D])\b/g)].map(match => match[1]);
+    return [...new Set(letters)].map(letter => item.options.find(option => option.letter === letter)).filter(Boolean);
+  }
+
+  function answerSummary(item) {
+    const options = expandedCorrectOptions(item);
+    return options.map(option => `<div><strong>${option.letter}.</strong> ${esc(option.text)}</div>`).join("");
+  }
+
+  function openQuestionReview(item) {
+    dialogContent.innerHTML = `<article class="lesson-detail question-review"><span class="eyebrow">${esc(item.examTitle)} · CONSIGNA ${item.number}</span><h1>${esc(item.prompt)}</h1><div class="options">${item.options.map(option => `<div class="option ${option.letter === item.answer ? "correct" : ""} ${option.letter === item.selected && option.letter !== item.answer ? "wrong" : ""}"><b>${option.letter}</b><span>${esc(option.text)}</span></div>`).join("")}</div><div class="review-summary"><strong>Respuesta correcta de contenido</strong>${answerSummary(item)}</div><button class="button secondary" data-close-dialog>Cerrar</button></article>`;
+    dialog.showModal();
   }
 
   function answerQuestion(letter) {
@@ -408,7 +448,8 @@
     saveState();
     const total = quizSession.questions.length;
     quizSession = null;
-    content.innerHTML = `<div class="quiz-shell"><div class="result-header"><div class="grade-circle ${correct / total >= .6 ? "pass" : ""}">${correct}/${total}</div><div><span class="eyebrow">PRÁCTICA TERMINADA</span><h1>${correct / total >= .7 ? "Bien. Ya reconocés el núcleo." : "Ahora sabés exactamente qué reforzar."}</h1><p>En práctica guiada buscá al menos 7/10 antes de pasar a un simulacro real.</p></div></div><div class="focus-actions" style="margin-top:22px"><button class="button red" data-start-quick="${scope}:10">Otra tanda</button><button class="button secondary" data-view="parciales">Ir a parciales reales</button></div></div>`;
+    const percentage = Math.round(correct / total * 100);
+    content.innerHTML = `<div class="quiz-shell"><div class="result-header"><div class="grade-circle ${correct / total >= .6 ? "pass" : ""}" style="--score:${percentage}%"><div><strong>${percentage}%</strong><span>${correct}/${total} correctas</span></div></div><div><span class="eyebrow">PRÁCTICA TERMINADA</span><h1>${correct / total >= .7 ? "Bien. Ya reconocés el núcleo." : "Ahora sabés exactamente qué reforzar."}</h1><p>En práctica guiada buscá al menos 7/10 antes de pasar a un simulacro real.</p></div></div><div class="focus-actions" style="margin-top:22px"><button class="button red" data-start-quick="${scope}:10">Otra tanda</button><button class="button secondary" data-view="parciales">Ir a parciales reales</button></div></div>`;
   }
 
   function renderExams(filter = "all") {
@@ -422,7 +463,7 @@
   function startExam(id) {
     const exam = EXAMS.find(item => item.id === id);
     if (!exam) return;
-    quizSession = { type: "exam", title: `${exam.partial}.º parcial · Tema ${exam.theme}`, examId: exam.id, questions: exam.questions, index: 0, answers: {}, startedAt: Date.now(), duration: 90 * 60 };
+    quizSession = { type: "exam", title: `${exam.partial}.º parcial · Tema ${exam.theme}`, examId: exam.id, questions: exam.questions, index: 0, answers: {}, hints: {}, startedAt: Date.now(), duration: 90 * 60 };
     currentView = "parciales";
     render();
     startTimer();
@@ -444,12 +485,13 @@
     if (unanswered && remainingSeconds() > 0 && !window.confirm(`Te faltan ${unanswered} consignas. ¿Corregir igual?`)) return;
     let grade = 0;
     let correct = 0;
-    quizSession.questions.forEach((question, index) => {
+    const review = quizSession.questions.map((question, index) => {
       const selected = quizSession.answers[index];
       if (selected === question.answer) { grade += question.points; correct++; delete state.mistakes[`${quizSession.examId}-${question.number}`]; }
       else {
         state.mistakes[`${quizSession.examId}-${question.number}`] = { examId: quizSession.examId, examTitle: quizSession.title, number: question.number, prompt: question.prompt, answer: question.answer, selected: selected || "Sin responder", options: question.options, date: Date.now() };
       }
+      return { examId: quizSession.examId, examTitle: quizSession.title, number: question.number, prompt: question.prompt, answer: question.answer, selected: selected || "Sin responder", options: question.options, correct: selected === question.answer };
     });
     grade = Math.round(grade * 10) / 10;
     state.examResults[quizSession.examId] = { grade, correct, date: Date.now() };
@@ -457,12 +499,14 @@
     const wrong = quizSession.questions.length - correct;
     saveState();
     quizSession = null;
-    content.innerHTML = `<div class="quiz-shell"><div class="result-header"><div class="grade-circle ${grade >= 4 ? "pass" : ""}">${grade.toFixed(1)}</div><div><span class="eyebrow">${esc(examId.toUpperCase())} · RESULTADO</span><h1>${grade >= 4 ? "Aprobado. Ahora construí margen." : "Todavía no, pero ya apareció el mapa."}</h1><p>${grade >= 4 ? "El objetivo mínimo está. Repasá los errores para que una variación de tema no te saque puntos." : "No releas todo: andá directo a las consignas falladas y a la lección asociada."}</p></div></div><div class="result-breakdown"><div><strong>${correct}</strong><span>CORRECTAS</span></div><div><strong>${wrong}</strong><span>PARA REPASAR</span></div><div><strong>${grade >= 4 ? "SÍ" : "NO"}</strong><span>APRUEBA</span></div></div><div class="focus-actions"><button class="button red" data-view="errores">Revisar errores</button><button class="button secondary" data-restart-exam="${examId}">Reintentar</button><button class="button secondary" data-view="parciales">Volver a temas</button></div></div>`;
+    const gradePercentage = Math.round(grade * 10);
+    content.innerHTML = `<div class="quiz-shell"><div class="result-header"><div class="grade-circle ${grade >= 4 ? "pass" : ""}" style="--score:${gradePercentage}%"><div><strong>${gradePercentage}%</strong><span>${grade.toFixed(1)}/10</span></div></div><div><span class="eyebrow">${esc(examId.toUpperCase())} · RESULTADO</span><h1>${grade >= 4 ? "Aprobado. Ahora construí margen." : "Todavía no, pero ya apareció el mapa."}</h1><p>Revisá todas las consignas. En las respuestas combinadas vas a ver el contenido real de A–D, no solamente la letra E–H.</p></div></div><div class="result-breakdown"><div><strong>${correct}</strong><span>CORRECTAS</span></div><div><strong>${wrong}</strong><span>PARA REPASAR</span></div><div><strong>${grade >= 4 ? "SÍ" : "NO"}</strong><span>APRUEBA</span></div></div><div class="answer-review-list">${review.map(item => `<article class="answer-review ${item.correct ? "is-correct" : "is-wrong"}"><header><span>${item.correct ? "CORRECTA" : "INCORRECTA"} · CONSIGNA ${item.number}</span><button class="button small secondary" data-review-result="${item.number}">Ver pregunta completa</button></header><p>${esc(item.prompt)}</p><small>Tu respuesta: ${esc(item.selected)}</small><div class="review-summary"><strong>Respuesta correcta de contenido</strong>${answerSummary(item)}</div></article>`).join("")}</div><div class="focus-actions"><button class="button secondary" data-restart-exam="${examId}">Reintentar</button><button class="button secondary" data-view="parciales">Volver a temas</button></div></div>`;
+    content.querySelectorAll("[data-review-result]").forEach(button => button.addEventListener("click", () => openQuestionReview(review.find(item => item.number === Number(button.dataset.reviewResult)))));
   }
 
   function renderMistakes() {
     const mistakes = Object.entries(state.mistakes).sort((a, b) => b[1].date - a[1].date);
-    return `${pageHead("CUADERNO AUTOMÁTICO", "Mis errores", "Cada fallo de un parcial real queda acá. Leé la respuesta correcta, explicá por qué y recién entonces marcá la consigna como aprendida.", mistakes.length ? '<button class="button secondary" data-clear-mistakes>Vaciar lista</button>' : "")}${mistakes.length ? `<div class="mistake-list">${mistakes.map(([key, item]) => { const correct = item.options.find(option => option.letter === item.answer); return `<article class="mistake-row"><header><span>${esc(item.examTitle)} · Consigna ${item.number}</span><button class="button small secondary" data-resolve-mistake="${key}">Ya la entendí</button></header><p>${esc(item.prompt)}</p><div class="mistake-answer"><strong>Correcta: ${item.answer}.</strong> ${esc(correct?.text || "")}</div><small style="display:block;margin-top:6px;color:var(--muted)">Tu respuesta: ${esc(item.selected)}</small></article>`; }).join("")}</div>` : `<div class="empty-state"><div><strong>Todavía no hay errores guardados.</strong>Rendí un parcial real y la página va a armar este repaso por vos.<br><button class="button red" data-view="parciales" style="margin-top:18px">Elegir parcial</button></div></div>`}`;
+    return `${pageHead("CUADERNO AUTOMÁTICO", "Mis errores", "Abrí cualquier consigna para ver todas las opciones y las respuestas correctas marcadas en verde.", mistakes.length ? '<button class="button secondary" data-clear-mistakes>Vaciar lista</button>' : "")}${mistakes.length ? `<div class="mistake-list">${mistakes.map(([key, item]) => `<article class="mistake-row clickable" data-open-mistake="${key}"><header><span>${esc(item.examTitle)} · Consigna ${item.number}</span><button class="button small secondary" data-resolve-mistake="${key}">Ya la entendí</button></header><p>${esc(item.prompt)}</p><div class="mistake-answer"><strong>Respuesta correcta de contenido</strong>${answerSummary(item)}</div><small style="display:block;margin-top:6px;color:var(--muted)">Tu respuesta: ${esc(item.selected)} · Clic para abrir la pregunta</small></article>`).join("")}</div>` : `<div class="empty-state"><div><strong>Todavía no hay errores guardados.</strong>Rendí un parcial real y la página va a armar este repaso por vos.<br><button class="button red" data-view="parciales" style="margin-top:18px">Elegir parcial</button></div></div>`}`;
   }
 
   function routeAction(action, id) {
@@ -486,7 +530,7 @@
   function closeMobileMenu() { document.getElementById("sidebar").classList.remove("open"); document.getElementById("mobile-overlay").classList.remove("open"); }
 
   document.addEventListener("click", event => {
-    const target = event.target.closest("button, [data-view], [data-lesson]");
+    const target = event.target.closest("button, [data-view], [data-lesson], [data-open-mistake]");
     if (!target) return;
     if (target.dataset.view) return setView(target.dataset.view);
     if (target.dataset.lesson) return openLesson(target.dataset.lesson);
@@ -513,6 +557,7 @@
       return startQuick(Number(count), scope);
     }
     if (target.dataset.answer) return answerQuestion(target.dataset.answer);
+    if (target.dataset.hint !== undefined) return useHint();
     if (target.dataset.quizPrev !== undefined && quizSession.index > 0) { quizSession.index--; return render(); }
     if (target.dataset.quizNext !== undefined) return nextQuestion();
     if (target.dataset.quizJump !== undefined) { quizSession.index = Number(target.dataset.quizJump); return render(); }
@@ -520,6 +565,7 @@
     if (target.dataset.submitExam !== undefined) return submitExam();
     if (target.dataset.restartExam) return startExam(target.dataset.restartExam);
     if (target.dataset.resolveMistake) { delete state.mistakes[target.dataset.resolveMistake]; saveState(); render(); toast("Error marcado como aprendido"); return; }
+    if (target.dataset.openMistake) return openQuestionReview(state.mistakes[target.dataset.openMistake]);
     if (target.dataset.clearMistakes !== undefined && window.confirm("¿Vaciar toda la lista de errores?")) { state.mistakes = {}; saveState(); render(); return; }
     if (target.dataset.resetProgress !== undefined && window.confirm("¿Borrar todo tu progreso, resultados, errores y fichas aprendidas? Esta acción no se puede deshacer.")) {
       const theme = state.theme;
