@@ -162,7 +162,7 @@
     }
   ];
 
-  const flashcards = [
+  const flashcardsSeed = [
     ["Estado", "Estructura institucional permanente que ejerce autoridad sobre territorio y población."],
     ["Gobierno", "Personas que conducen temporalmente el Estado."],
     ["Régimen político", "Reglas de acceso y ejercicio del poder."],
@@ -186,6 +186,41 @@
     ["China en América Latina", "Comercio, inversión, crédito, afinidad política y oportunidad geopolítica."],
     ["Veto ONU", "Herencia de 1945 con problemas actuales de legitimidad y equidad."]
   ];
+
+  const flashcards = [
+    card("Estado", "Estructura institucional relativamente permanente que ejerce autoridad sobre una poblacion en un territorio. Incluye leyes, burocracia, administracion, justicia, impuestos, fuerzas de seguridad y capacidad de tomar decisiones obligatorias. No es el gobierno de turno: el gobierno ocupa temporalmente el Estado, pero el Estado permanece. Para examen: no reducirlo a territorio o poblacion; hacen falta autoridad, instituciones y monopolio legitimo de la fuerza."),
+    card("Gobierno", "Conjunto de autoridades que conduce temporalmente el Estado y define politicas publicas. Puede cambiar por elecciones, crisis o sucesion sin que cambie necesariamente el Estado ni el regimen politico. En democracia debe estar limitado por ley, controles, derechos y elecciones competitivas. Trampa tipica: Estado y gobierno no son sinonimos."),
+    card("Regimen politico", "Reglas que organizan como se accede al poder, como se lo ejerce y que limites existen. Un regimen democratico requiere competencia, libertades, participacion, oposicion real y alternancia posible. Un regimen autoritario restringe competencia y concentra poder. Diferencia clave: puede cambiar el gobierno sin cambiar el regimen."),
+    card("Nacion", "Comunidad historica e imaginada de pertenencia, sostenida por memoria, cultura, lengua, simbolos, tradiciones o proyecto comun. No siempre coincide con el Estado: puede haber naciones sin Estado propio y Estados con mas de una identidad nacional. Trampa: la nacion no se define por burocracia, leyes o coercion estatal."),
+    card("Democracia / Poliarquia", "Para Dahl, la poliarquia es la democracia moderna observable: elecciones competitivas, participacion inclusiva, libertades politicas, informacion alternativa, derecho a organizarse y gobernantes electos con poder efectivo. Votar no alcanza si no hay oposicion real, prensa libre, derechos y posibilidad de alternancia."),
+    card("Golpe de Estado", "Interrupcion ilegal del orden institucional por fuerza o presion de actores militares, civiles o mixtos. Desplaza autoridades y altera reglas constitucionales. No todo conflicto politico grave es golpe: tiene que haber ruptura del orden institucional. Puede tener apoyos civiles, empresariales, judiciales o politicos."),
+    card("Terrorismo de Estado", "Uso sistematico de recursos estatales para perseguir, secuestrar, torturar, desaparecer o disciplinar a la poblacion por vias ilegales o clandestinas. La clave es que el aparato estatal organiza o ampara la violencia. En 1976 coexistieron un Estado visible con normas propias y un circuito clandestino represivo."),
+    card("Ongania y Cordobazo", "Ongania llega con el golpe de 1966, disuelve el Congreso, interviene universidades y busca un orden autoritario sin plazos electorales claros. La Noche de los Bastones Largos simboliza la represion universitaria. El Cordobazo de 1969, protesta obrera y estudiantil masiva, acelera el desgaste del regimen."),
+    card("Alfonsin y DD. HH.", "Alfonsin asume en 1983 con el desafio de reconstruir la democracia y responder al terrorismo de Estado. Impulsa CONADEP y Juicio a las Juntas. Luego enfrenta presion militar y levantamientos carapintadas; Punto Final y Obediencia Debida limitan juicios. Trampa: los indultos corresponden a Menem, no a Alfonsin."),
+    card("Menem 1989-1999", "Llega en hiperinflacion y crisis social. Aunque peronista, aplica una transformacion neoliberal: privatizaciones, apertura, desregulacion, reforma del Estado, alineamiento con EE. UU. y conduccion personalista. Logra estabilidad inicial con convertibilidad, pero crecen desempleo, pobreza, deuda y vulnerabilidad externa."),
+    card("Convertibilidad", "Plan de Cavallo desde 1991: 1 peso = 1 dolar. Frena la inflacion y reconstruye confianza, pero quita flexibilidad monetaria: no se puede devaluar ni emitir libremente. Con peso caro, recesion, deficit, deuda y dependencia de financiamiento, a fines de los noventa se vuelve una trampa."),
+    card("Pacto de Olivos / Reforma 1994", "Acuerdo Menem-Alfonsin que habilita la reforma constitucional. Para Menem, el objetivo central era la reeleccion. La reforma incorpora reeleccion presidencial, balotaje, jefe de Gabinete, Consejo de la Magistratura y autonomia de CABA. No elimina Congreso ni federalismo."),
+    card("Alianza y crisis de 2001", "De la Rua recibe recesion, deuda, deficit, desempleo, convertibilidad rigida y un peronismo fuerte en provincias y Senado. La coalicion era fragil. Circulo vicioso: ajuste, mas recesion, menor recaudacion, mas deficit y nuevo ajuste. Blindaje, megacanje, deficit cero y corralito no restauran confianza."),
+    card("Voto bronca", "En octubre de 2001, votos blancos, nulos y rechazo electoral expresan crisis de representacion. No es solo derrota de un partido: es distancia entre sociedad y dirigencia en medio de recesion, ajuste y promesas incumplidas. Trampa: no significa desaparicion del peronismo ni apoyo a la convertibilidad."),
+    card("Duhalde y salida de la crisis", "Duhalde asume en 2002, abandona la convertibilidad, devalua y pesifica. El inicio es socialmente duro: inflacion, pobreza, conflicto y caida salarial. Luego aparece recuperacion por tipo de cambio competitivo, exportaciones, precios internacionales y gestion Lavagna. No fue salida inmediata ni sin costos."),
+    card("Kirchner en 2003", "Kirchner no gano un balotaje. Menem quedo primero en la primera vuelta, pero se retiro antes de la segunda porque probablemente perderia contra una mayoria anti-menemista. Kirchner asume con bajo porcentaje inicial y construye legitimidad luego, con crecimiento, derechos humanos y renovacion institucional."),
+    card("Linares", "Defiende el sorteo como complemento democratico: puede aportar igualdad de chances, diversidad social, deliberacion y participacion de ciudadanos comunes. No reemplaza completamente elecciones ni elimina automaticamente clientelismo o desigualdad. En opciones falsas suelen aparecer absolutos como siempre, totalmente o elimina."),
+    card("Nozick", "Liberal-libertario. Defiende autopropiedad y Estado minimo: seguridad, justicia, contratos y proteccion de derechos. Rechaza redistribucion estatal forzada porque la considera violacion de libertad individual. Si adquisicion y transferencia fueron justas, el resultado es justo aunque sea desigual. No confundir con Rawls."),
+    card("Rawls", "Justicia como equidad. Acepta desigualdades solo si benefician a los menos aventajados y si hay igualdad justa de oportunidades, dentro de libertades basicas. Principio de diferencia: la desigualdad debe mejorar la posicion de quienes estan peor. No es igualdad absoluta; es desigualdad justificada."),
+    card("Gulich e IA", "La inteligencia es una propiedad material y emergente del sistema nervioso. Los modelos de lenguaje producen respuestas sofisticadas, pero no equivalen automaticamente a inteligencia general humana. Clave: evitar dos extremos, ni misticismo inmaterial ni decir que predecir palabras es lo mismo que comprender como una persona."),
+    card("Bernardini: edadismo", "Discriminacion por edad, especialmente hacia personas mayores. Cuatro factores: miedo a la muerte, culto a la juventud, valoracion economica de la productividad e institucionalizacion de mayores. Trampa de examen: redes sociales puede sonar plausible, pero no es uno de los cuatro factores centrales del texto."),
+    card("Pimentel / Byung-Chul Han", "La estetica del clic critica una cultura digital que premia inmediatez, viralidad, consumo rapido y fragmentacion. El arte y la atencion quedan sometidos a metricas. En Han, la esperanza no es optimismo ingenuo: es resistencia activa frente a un presente que parece cerrar alternativas."),
+    card("Leiras: Venezuela", "La etapa constituyente chavista transforma radicalmente el sistema politico venezolano. AD y COPEI, partidos centrales del pacto de Punto Fijo, son desplazados a un papel casi testimonial. No es continuidad normal del bipartidismo, sino reconfiguracion del sistema alrededor del chavismo."),
+    card("Chaguaceda y Viera: Cuba", "Sostienen que Cuba carece de democracia sustantiva: concentracion de poder, pluralismo restringido, oposicion limitada y control estatal sobre la vida politica. GAESA muestra fusion entre poder militar, economico y politico. Trampa: instituciones formales no alcanzan para hablar de democracia efectiva."),
+    card("GAESA", "Conglomerado clave para entender el poder cubano. Concentra actividades economicas estrategicas y vincula Fuerzas Armadas, empresas y conduccion politica. Representa fusion de poder militar, economico y politico, no autonomia empresarial ni democratizacion. Ayuda a explicar recursos y sostenimiento del regimen."),
+    card("Povse: China en America Latina", "El avance chino se explica por comercio, inversion, credito, infraestructura, demanda de recursos, afinidades politicas y oportunidad geopolitica por menor involucramiento relativo de EE. UU. Tambien hay poder blando: medios, intercambios, presencia cultural. Trampa: nunca una causa exclusiva."),
+    card("Pedrosa y Federico: veto ONU", "El veto del Consejo de Seguridad refleja el orden posterior a 1945: EE. UU., Rusia, China, Francia y Reino Unido conservan privilegio. Hoy se cuestiona por legitimidad, equidad y representacion. Una potencia puede bloquear decisiones con amplio apoyo. No todos los paises tienen veto."),
+    card("Populismo", "Forma de articulacion politica que construye un pueblo enfrentado a una elite, usualmente con liderazgo personalista y apelacion directa. Puede tensionar mediaciones institucionales, pluralismo y controles, pero no todo populismo es automaticamente dictadura. No reducirlo a politicas sociales ni carisma."),
+    card("Federalismo", "Distribucion constitucional del poder entre gobierno nacional y unidades subnacionales con competencias propias. No significa independencia provincial: las provincias no son paises. A diferencia del Estado unitario, las autonomias subnacionales estan garantizadas constitucionalmente. Ejemplos latinoamericanos: Argentina, Brasil, Mexico y Venezuela."),
+    card("Ciudadania / Arendt", "Ciudadania es pertenencia politica reconocida por un Estado, con derechos y deberes. Arendt habla del derecho a tener derechos: sin comunidad politica que reconozca y proteja, los derechos pueden quedar abstractos. Trampa: ciudadania no es solo vivir en un territorio.")
+  ];
+
+  function card(front, back) { return [front, back]; }
 
   const quickQuestions = [
     q("¿Cuál es la relación correcta entre Estado y gobierno?", ["Son sinónimos", "El gobierno es temporal; el Estado tiene mayor permanencia", "El Estado cambia con cada elección", "El gobierno contiene al Estado"], 1, "El gobierno ocupa y conduce temporalmente la estructura estatal."),
@@ -241,7 +276,7 @@
 
   function q(prompt, options, answer, explanation) { return { prompt, options: options.map((text, i) => ({ letter: String.fromCharCode(65 + i), text })), answer: String.fromCharCode(65 + answer), explanation, points: 1 }; }
 
-  const defaults = { completedLessons: [], routeDone: [], quickAttempts: [], examResults: {}, mistakes: {}, knownCards: [], theme: "light" };
+  const defaults = { completedLessons: [], routeDone: [], quickAttempts: [], examResults: {}, mistakes: {}, knownCards: [], difficultCards: [], theme: "light" };
   let state = loadState();
   let currentView = "inicio";
   let flashIndex = 0;
@@ -260,6 +295,18 @@
   function saveState() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
     updateProgress();
+  }
+
+  function toggleCardList(listName, index, force) {
+    const list = state[listName] || [];
+    const exists = list.includes(index);
+    state[listName] = force === true || (!exists && force !== false) ? [...list, index] : list.filter(item => item !== index);
+  }
+
+  function nextFlashIndex({ preferDifficult = false } = {}) {
+    const difficult = (state.difficultCards || []).filter(index => !state.knownCards.includes(index));
+    if (preferDifficult && difficult.length) return difficult[0];
+    return (flashIndex + 1) % flashcards.length;
   }
 
   function esc(value) {
@@ -351,6 +398,14 @@
   }
 
   function renderFlashcards() {
+    {
+      const currentCard = flashcards[flashIndex];
+      const knownNow = state.knownCards.includes(flashIndex);
+      const difficultNow = (state.difficultCards || []).includes(flashIndex);
+      const hardPending = (state.difficultCards || []).filter(index => !state.knownCards.includes(index)).length;
+      return `${pageHead("REPASO ACTIVO", "Fichas rapidas", "Deci la respuesta antes de mirar. Marca como dificil todo lo que no puedas explicar completo: ese mazo queda separado para repasarlo al final.")}
+        <div class="flash-layout"><div><div class="flashcard ${difficultNow ? "is-difficult" : ""}" data-flip-card><span class="flash-label">FICHA ${flashIndex + 1} / ${flashcards.length}${difficultNow ? " - DIFICIL" : ""}</span><h2>${currentCard[0]}</h2><div class="flash-answer">${currentCard[1]}</div><footer><button class="button small secondary" data-flip-card-button>Mostrar / ocultar respuesta</button></footer></div><div class="flash-controls"><button class="button secondary" data-card-prev>Anterior</button><button class="button ${difficultNow ? "red" : "secondary"}" data-card-hard>${difficultNow ? "Sigue dificil" : "Marcar dificil"}</button><button class="button ${knownNow ? "secondary" : "red"}" data-card-know>${knownNow ? "Ya la se" : "La se"}</button><button class="button secondary" data-card-next>Siguiente</button></div></div><aside><span class="eyebrow">ESTADO DEL MAZO</span><div class="flash-stats"><div><span>Dominadas</span><strong>${state.knownCards.length}</strong></div><div><span>Dificiles</span><strong>${hardPending}</strong></div><div><span>Pendientes</span><strong>${flashcards.length - state.knownCards.length}</strong></div><div><span>Avance</span><strong>${Math.round(state.knownCards.length / flashcards.length * 100)}%</strong></div></div><button class="button small secondary flash-hard-jump" data-card-hard-review ${hardPending ? "" : "disabled"}>Repasar dificiles</button><p class="flash-note">Meta util de emergencia: si una ficha te suena pero no podes decir causa, consecuencia y trampa, marcala dificil.</p></aside></div>`;
+    }
     const card = flashcards[flashIndex];
     const known = state.knownCards.includes(flashIndex);
     return `${pageHead("REPASO ACTIVO", "Fichas rápidas", "Intentá decir la respuesta antes de dar vuelta la ficha. Las que marques como difíciles vuelven a aparecer en tu próximo recorrido.")}
@@ -530,7 +585,7 @@
   function closeMobileMenu() { document.getElementById("sidebar").classList.remove("open"); document.getElementById("mobile-overlay").classList.remove("open"); }
 
   document.addEventListener("click", event => {
-    const target = event.target.closest("button, [data-view], [data-lesson], [data-open-mistake]");
+    const target = event.target.closest("button, [data-view], [data-lesson], [data-open-mistake], [data-flip-card]");
     if (!target) return;
     if (target.dataset.view) return setView(target.dataset.view);
     if (target.dataset.lesson) return openLesson(target.dataset.lesson);
@@ -548,10 +603,26 @@
       if (action.startsWith("exam-")) return startExam(action.replace("exam-", ""));
     }
     if (target.dataset.routeAction) return routeAction(target.dataset.routeAction, target.dataset.routeId);
+    if (target.dataset.flipCardButton !== undefined) { target.closest(".flashcard")?.classList.toggle("revealed"); return; }
     if (target.dataset.flipCard !== undefined) return target.classList.toggle("revealed");
     if (target.dataset.cardPrev !== undefined) { flashIndex = (flashIndex - 1 + flashcards.length) % flashcards.length; return render(); }
-    if (target.dataset.cardNext !== undefined) { flashIndex = (flashIndex + 1) % flashcards.length; return render(); }
-    if (target.dataset.cardKnow !== undefined) { if (state.knownCards.includes(flashIndex)) state.knownCards = state.knownCards.filter(i => i !== flashIndex); else state.knownCards.push(flashIndex); saveState(); flashIndex = (flashIndex + 1) % flashcards.length; return render(); }
+    if (target.dataset.cardNext !== undefined) { flashIndex = nextFlashIndex(); return render(); }
+    if (target.dataset.cardHardReview !== undefined) { flashIndex = nextFlashIndex({ preferDifficult: true }); return render(); }
+    if (target.dataset.cardHard !== undefined) {
+      toggleCardList("difficultCards", flashIndex, true);
+      state.knownCards = state.knownCards.filter(i => i !== flashIndex);
+      saveState();
+      flashIndex = nextFlashIndex();
+      toast("Marcada como dificil");
+      return render();
+    }
+    if (target.dataset.cardKnow !== undefined) {
+      toggleCardList("knownCards", flashIndex);
+      state.difficultCards = (state.difficultCards || []).filter(i => i !== flashIndex);
+      saveState();
+      flashIndex = nextFlashIndex({ preferDifficult: true });
+      return render();
+    }
     if (target.dataset.startQuick) {
       const [scope, count] = target.dataset.startQuick.includes(":") ? target.dataset.startQuick.split(":") : ["studied", target.dataset.startQuick];
       return startQuick(Number(count), scope);
